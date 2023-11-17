@@ -1,42 +1,44 @@
-<?php include './layout/header.php'; ?>
-
 <?php
-$err_msg = "";
 
-//②サブミットボタンが押されたときの処理
+require_once('config.php');
+
 if (isset($_POST['login'])) {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-  //③データが渡ってきた場合の処理
+  session_start();
+  //メールアドレスのバリデーション
+  if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    echo '入力された値が不正です。';
+    return false;
+  }
+  //DB内でPOSTされたメールアドレスを検索
   try {
-    $db = new PDO('mysql:host=192.168.144.2; dbname=astro_diary', 'root', 'password');
-    $sql = 'select count(*) from users where email=? and password=?';
-    $stmt = $db->prepare($sql);
-    $stmt->execute(array($email, $password));
-    $result = $stmt->fetch();
-    $stmt = null;
-    $db = null;
-
-    //④ログイン認証ができたときの処理
-    if ($result[0] != 0) {
-      header('Location: https://www.google.com/');
-      exit;
-
-      //⑤アカウント情報が間違っていたときの処理
-    } else {
-      $err_msg = "アカウント情報が間違っています。";
-      echo $err_msg;
-    }
-
-    //⑥データが渡って来なかったときの処理
-  } catch (PDOExeption $e) {
-    echo $e->getMessage();
+    $pdo = new PDO(DSN, DB_USER, DB_PASS);
+    $stmt = $pdo->prepare('select * from userDeta where email = ?');
+    $stmt->execute([$_POST['email']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  } catch (\Exception $e) {
+    echo $e->getMessage() . PHP_EOL;
+  }
+  //emailがDB内に存在しているか確認
+  if (!isset($row['email'])) {
+    echo 'メールアドレス又はパスワードが間違っています。';
+    return false;
+  }
+  //パスワード確認後sessionにメールアドレスを渡す
+  if (password_verify($_POST['password'], $row['password'])) {
+    session_regenerate_id(true); //session_idを新しく生成し、置き換える
+    $_SESSION['EMAIL'] = $row['email'];
+    header("Location: index.php");
     exit;
+  } else {
+    echo 'メールアドレス又はパスワードが間違っています。';
+    return false;
   }
 }
 ?>
 
+<?php
+include './layout/header.php';
+?>
 
 <div class="max-w-screen-md mx-auto p-4 md:p-8">
   <form action="" method="POST">
