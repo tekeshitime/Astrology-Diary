@@ -9,29 +9,16 @@ services:
           - 8080:80
       container_name: php8.2-apache
 
-  mysql:
-      image: mysql:latest
-      ports:
-        - "3306:3306"
-      environment:
-        MYSQL_ROOT_PASSWORD: mysql
-        MYSQL_DATABASE: db
-        MYSQL_USER: user
-        MYSQL_PASSWORD: password
-        TZ: 'Asia/Tokyo'
-      volumes:
-        - db-data:/var/lib/mysql
-
   phpmyadmin:
-    image: phpmyadmin:latest
-    depends_on:
-      - mysql
+    image: phpmyadmin/phpmyadmin:latest
     environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOSTS=mysql
-      - PMA_USER=root
-      - PMA_PASSWORD=mysql
+      PMA_HOST: 'mysql'
     ports:
       - "3001:80"
-volumes:
-  db-data:
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"

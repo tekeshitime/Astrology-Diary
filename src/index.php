@@ -16,7 +16,7 @@
 
 <div class="font-normal text-gray-700  mx-auto w-2/3 dark:text-gray-400">
 
-  <a href="#" class="block  p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+  <a href="view_post.php" class="block  p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
     <!-- column 1 -->
     <div class="flex items-center">
@@ -89,12 +89,12 @@
       </div>
     </div>
   </a>
+  <!-- 編集リンク -->
   <p class="text-right mt-2">
     <span class="material-symbols-outlined">
       <a href="edit_form.php">edit_note</a>
     </span>
   </p>
 </div>
-<!-- 編集リンク -->
 
 <?php include './layout/footer.php'; ?>
