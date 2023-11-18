@@ -1,9 +1,8 @@
 <?php
 
 require_once('config.php');
-
+session_start();
 if (isset($_POST['login'])) {
-  session_start();
   //メールアドレスのバリデーション
   if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     echo '入力された値が不正です。';
@@ -27,7 +26,7 @@ if (isset($_POST['login'])) {
   if (password_verify($_POST['password'], $row['password'])) {
     session_regenerate_id(true); //session_idを新しく生成し、置き換える
     $_SESSION['EMAIL'] = $row['email'];
-    header("Location: index.php");
+    header("Location: profile.php");
     exit;
   } else {
     echo 'メールアドレス又はパスワードが間違っています。';
@@ -40,7 +39,7 @@ if (isset($_POST['login'])) {
 include './layout/header.php';
 ?>
 
-<div class="max-w-screen-md mx-auto p-4 md:p-8">
+<div class="max-w-screen-sm mx-auto p-4 md:p-8">
   <form action="" method="POST">
     <div class="mb-6">
       <label for="signin-id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">メールアドレス</label>
@@ -56,8 +55,11 @@ include './layout/header.php';
       </div>
       <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">記憶</label>
     </div>
-    <button type="submit" name="login" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">ログインする</button>
+    <button type="submit" name="login" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">ログインする</button>
   </form>
+  <div>
+    <span class="mt-4">アカウントをお持ちでない方</span><a href="register.php" class="ml-2">新規登録</a>
+  </div>
 </div>
 
 <?php include './layout/footer.php'; ?>
