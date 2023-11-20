@@ -1,3 +1,6 @@
+<?php
+
+?>
 <?php include './layout/header.php'; ?>
 
 <form class="max-w-screen-md mx-auto p-4 md:p-8">
@@ -6,23 +9,23 @@
   <div class="flex h-40 items-center">
     <div>感情</div>
     <div class="flex items-center">
-      <input id="mood-radio-1" type="radio" value="" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input id="mood-radio-1" type="radio" value="1" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-radio-1" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😱</label>
     </div>
     <div class="flex items-center">
-      <input checked id="mood-radio-2" type="radio" value="" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input checked id="mood-radio-2" type="radio" value="2" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-radio-2" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😥</label>
     </div>
     <div class="flex items-center">
-      <input checked id="mood-radio-3" type="radio" value="" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input checked id="mood-radio-3" type="radio" value="3" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-radio-3" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😀</label>
     </div>
     <div class="flex items-center">
-      <input checked id="mood-radio-4" type="radio" value="" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input checked id="mood-radio-4" type="radio" value="4" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-radio-4" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😋</label>
     </div>
     <div class="flex items-center">
-      <input checked id="mood-radio-5" type="radio" value="" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input checked id="mood-radio-5" type="radio" value="5" name="mood-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-radio-5" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">🥰</label>
     </div>
   </div>

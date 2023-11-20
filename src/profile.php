@@ -35,10 +35,12 @@ try {
       <p>あなたのメールアドレスは<b><?php echo $record["email"]; ?></b>です</p>
     </div>
     <div class="">
-      <p>あなたの生年月日は<b><?php echo $record["birth_day"]; ?></b>です</p>
+      <p>あなたの生年月日は<b>
+          <?php echo $record["birth_y"] . "年" . $record["birth_m"] . "月" . $record["birth_d"] . "日" ?>
+        </b>です</p>
     </div>
     <div class="">
-      <p>生まれた時間は<b><?php echo $record["birth_time"]; ?></b>です</p>
+      <p>生まれた時間は<b><?php echo $record["birth_hour"] . '時' . $record["birth_m"] . "分" ?></b>です</p>
     </div>
     <div class="">
       <p>生まれた場所は<b><?php echo $record["place"]; ?></b>です</p>

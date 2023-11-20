@@ -33,8 +33,14 @@ if (isset($_POST['register'])) {
   }
   //送信された内容を格納する
   $username = $_POST['username'];
-  $birth_day = $_POST['birth_day'];
-  $birth_time = $_POST['birth_time'];
+
+  // birth_dayを分割
+  list($birth_y, $birth_m, $birth_d) = explode('-', $_POST['birth_day']);
+
+
+  // birth_timeを分割
+  list($birth_hour, $birth_min) = explode(':', $_POST['birth_time']);
+
   $place = $_POST['place'];
   //データベース内のメールアドレスを取得
   $stmt = $pdo->prepare("select email from userDeta where email = ?");
@@ -43,15 +49,15 @@ if (isset($_POST['register'])) {
   //データベース内のメールアドレスと重複していない場合、登録する。
   if (!isset($row['email'])) {
     $stmt = $pdo->prepare(
-      "insert into userDeta(email, password,username,birth_day,birth_time,place)
-      value(?,?,?,?,?,?)"
+      "insert into userDeta(email, password,username,birth_y,birth_m,birth_d,birth_hour,birth_min,place)
+      value(?,?,?,?,?,?,?,?,?)"
     );
-    $stmt->execute([$email, $password, $username, $birth_day, $birth_time, $place]);
+    $stmt->execute([$email, $password, $username, $birth_y, $birth_m, $birth_d, $birth_hour, $birth_min, $place]);
     echo '登録完了しました。<a href="login.php">ログイン</a>してください。';
-    $_SESSION['authentication'] = true;
-    $_SESSION['user_id'] = $email;
+    // echo $birth_y . $birth_m . $birth_d . $birth_hour . $birth_min;
   } else {
     echo '既に登録されたメールアドレスです';
+    echo $birth_d;
     return false;
   }
 }
@@ -85,19 +91,20 @@ include './layout/header.php';
     <div class="flex">
       <div class="mb-6">
         <label for="birth_day" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">生年月日</label>
-        <input type="date" name="birth_day" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        <input type="date" name="birth_day" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="1980-01-01" required>
       </div>
 
       <!-- 出生時間 -->
       <div class="mb-6 ml-4">
         <label for="birth_time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           出生時間<span class="ml-4 text-sm text-blue-600">不明なら12:00</span></label>
-        <input type="time" name="birth_time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        <input type="time" name="birth_time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="12:00" required>
       </div>
     </div>
     <!-- 出生地 -->
     <div class="mb-6">
-      <label for="place" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">出生地<span class="ml-4 text-sm text-blue-600">最も近い都市を選択してください。</span></label>
+      <label for="place" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        出生地<span class=" ml-4 text-sm text-blue-600">最も近い都市を選択してください。</span></label>
 
       <select type="select" name="place" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
         <?php

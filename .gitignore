@@ -27,3 +27,7 @@ isolate*.log
 
 # Generated files during tests
 /tests/evaluate-tailwind-functions.test.html
+/mysql
+
+src/master_wheel
+src/synastry

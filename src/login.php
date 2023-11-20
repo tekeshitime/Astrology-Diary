@@ -1,7 +1,7 @@
 <?php
-
 require_once('config.php');
 session_start();
+
 if (isset($_POST['login'])) {
   //メールアドレスのバリデーション
   if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
@@ -26,6 +26,7 @@ if (isset($_POST['login'])) {
   if (password_verify($_POST['password'], $row['password'])) {
     session_regenerate_id(true); //session_idを新しく生成し、置き換える
     $_SESSION['EMAIL'] = $row['email'];
+    $_SESSION['authentication'] = true;
     header("Location: profile.php");
     exit;
   } else {
