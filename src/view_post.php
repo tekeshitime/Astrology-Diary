@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once('config.php');
+?>
+
 <?php include './layout/header.php'; ?>
 
 <!-- 日付 -->

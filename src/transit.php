@@ -29,16 +29,15 @@ try {
 ?>
 
 <div class="max-w-screen-md mx-auto p-4 md:p-8">
-
-
   <div class="my-5 text-center">
-    <p class="text-4xl font-bold">あなたのホロスコープ</p>
+    <p class="text-4xl font-bold">今日のトランジット</p>
   </div>
   <div class="my-10">
-    <?php
-    include './master_wheel/index.php'
 
+    <?php
+    include './synastry/synastry_generator.php';
     ?>
+
 
   </div>
 </div>

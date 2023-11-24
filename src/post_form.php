@@ -5,57 +5,82 @@ require_once('config.php');
 if (isset($_POST['post'])) {
   try {
     $pdo = new PDO(DSN, DB_USER, DB_PASS);
-    list($year,$month,$day) = explode('-',$_POST['date']);
+    $date = date('Y-m-d');
+    $stmt = $pdo->prepare("SELECT `date` FROM post WHERE `date` = ?");
+    $stmt->execute([$date]);
+    if ($stmt->rowCount() == 0) {
 
+      $stmt = $pdo->prepare(
+        "INSERT INTO post(`username`, `mood`, `content`, `date`, `wheel_img_src`, `grid_img_src`, `day_sun`, `day_moon`, `aspect_desc`)
+        VALUES (?,?,?,?,?,?,?,?,?)"
+      );
+      // ホロスコープ情報を追加する
+      include './synastry/synastry_generator.php';
+      // ホロ画像
+      echo $wheel_img_src;
+      // アスペクトグリット
+      echo $grid_img_src;
+      //その日の太陽
+      echo $day_sun;
+      //その日の月
+      echo $day_moon;
+      // アスペクト詳細表
+      print_r($str);
 
-    $stmt = $pdo->prepare(
-      "INSERT INTO post(`username`, `mood`, `content`, `year`, `month`, `day`)
-      VALUES (?,?,?,?,?,?)"
-    );
-    $stmt->execute([$_SESSION['id'], $_POST['mood'], $_POST['content'],$year,$month,$day]);
-    header("Location: index.php");
+      echo $stmt->execute([$_SESSION['id'], $_POST['mood'], $_POST['content'], $_POST['date'], $wheel_img_src, $grid_img_src, $day_sun, $day_moon, json_encode($str)]);
+      print_r($stmt->errorInfo());
+    } else {
+      $message = "<p class='text-red-600 font-bold'>以下日付の日記はすでに存在しています。</p>";
+    }
   } catch (\Exception $e) {
     echo $e->getMessage() . PHP_EOL;
   }
 }
-
-
 // echo date('Y/m/d');
 // echo $_POST['mood'];
 // echo $_POST['content'];
 // echo $_POST['date'];
 
+
+
+
+
+
 ?>
+
 
 <?php include './layout/header.php'; ?>
 
 <form class="max-w-screen-md mx-auto p-4 md:p-8" method="post">
-<p class="text-sm text-gray-800 dark:text-white">希望の日付に変更できます。</p>
+  <p class="text-sm text-gray-800 dark:text-white">希望の日付に変更できます。</p>
+  <?php
+  echo $message;
+  ?>
   <div class="text-5xl font-bold text-gray-400">
-      <input type="date" name="date" id="selectdate" value="<?php echo date('Y-m-d'); ?>" class='text-gray-800 dark:text-white'>
+    <input type="date" name="date" id="selectdate" value="<?php echo date('Y-m-d'); ?>" class='text-gray-800 dark:text-white'>
   </div>
 
 
   <div class="flex h-40 items-center">
-  <p class="text-sm">感情</p>
+    <p class="text-sm">感情</p>
     <div class="flex items-center">
-      <input id="mood-1" type="radio" value="最悪" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input id="mood-1" type="radio" value="😱" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-1" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😱</label>
     </div>
     <div class="flex items-center">
-      <input id="mood-2" type="radio" value="良くない" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input id="mood-2" type="radio" value="😥" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-2" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😥</label>
     </div>
     <div class="flex items-center">
-      <input checked id="mood-3" type="radio" value="普通" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input checked id="mood-3" type="radio" value="😀" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-3" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😀</label>
     </div>
     <div class="flex items-center">
-      <input id="mood-4" type="radio" value="良い" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input id="mood-4" type="radio" value="😋" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-4" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">😋</label>
     </div>
     <div class="flex items-center">
-      <input id="mood-5" type="radio" value="最高" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
+      <input id="mood-5" type="radio" value="🥰" name="mood" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 relative bottom-10 left-12">
       <label for="mood-5" class="ms-2 text-6xl font-medium text-gray-900 dark:text-gray-300">🥰</label>
     </div>
   </div>

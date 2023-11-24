@@ -41,9 +41,9 @@ ON userdeta.id = post.username;";
 
     <!-- column 1 -->
     <div class="flex items-center">
-      <div class="grid grid-cols-1 h-40 w-3/6 text-center ">
+      <div class="grid grid-cols-1 h-40 w-44 text-center ">
         <!-- 絵文字で表情 -->
-        <div class="mood text-6xl">php</div>
+        <div class="mood text-6xl"><?php echo $record['mood']; ?></div>
         <!-- 曜日と日付 -->
         <div class="date">
           <?php
@@ -63,7 +63,9 @@ ON userdeta.id = post.username;";
         <!-- 今日やったこと add_activity -->
         <!-- <div class="add_activity"></div> -->
         <!-- 日記本文 max-3行-->
-        <p class="">今日は自分を振り返る日だった。仕事では良い成果を出せたが、感情の面ではちょっと疲れ気味。もっとリラックスする時間を作るべきだなと感じた。明日からは自分にもっと優しく過ごそう。</p>
+        <p class="">
+          <?php echo $record['content']; ?>
+        </p>
         <!-- 主要なアスペクト -->
         <span class="block my-2 text-sm leading-6 font-semibold text-blue-500 dark:text-sky-400">主要なアスペクト</span>
         <div class="relative">
