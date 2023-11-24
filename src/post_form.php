@@ -16,19 +16,14 @@ if (isset($_POST['post'])) {
       );
       // ホロスコープ情報を追加する
       include './synastry/synastry_generator.php';
-      // ホロ画像
-      echo $wheel_img_src;
-      // アスペクトグリット
-      echo $grid_img_src;
-      //その日の太陽
-      echo $day_sun;
-      //その日の月
-      echo $day_moon;
-      // アスペクト詳細表
-      print_r($str);
 
-      echo $stmt->execute([$_SESSION['id'], $_POST['mood'], $_POST['content'], $_POST['date'], $wheel_img_src, $grid_img_src, $day_sun, $day_moon, json_encode($str)]);
-      print_r($stmt->errorInfo());
+      // echo $wheel_img_src; // ホロ画像
+      // echo $grid_img_src; // アスペクトグリット画像
+      // echo $day_sun; //その日の太陽
+      // echo $day_moon;//その日の月
+      // print_r($str);// アスペクト詳細表
+
+      $stmt->execute([$_SESSION['id'], $_POST['mood'], $_POST['content'], $_POST['date'], $wheel_img_src, $grid_img_src, $day_sun, $day_moon, json_encode($str)]);
     } else {
       $message = "<p class='text-red-600 font-bold'>以下日付の日記はすでに存在しています。</p>";
     }
