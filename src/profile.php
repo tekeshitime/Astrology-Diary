@@ -9,32 +9,20 @@ if (!isset($_SESSION['authentication'])) {
 ?>
 
 <?php
-require_once('config.php');
+require_once('db.php');
 include './layout/header.php';
-$id = $_SESSION['id'];
-?>
-
-<?php
-try {
-  $pdo = new PDO(DSN, DB_USER, DB_PASS);
-  $sql = "SELECT * FROM userDeta
-  where id = $id";
-
-  $stmt = $pdo->query($sql);
-  foreach ($stmt as $record) {
-  }
-} catch (PDOException $e) {
-  echo "エラーメッセージ : " . $e->getMessage();
-}
+$record = getLoggedinUser();
 ?>
 
 <div class="max-w-screen-md mx-auto p-4 md:p-8">
   <div class="mb-4">
     <div class="">
-      <p>こんにちは、<b><?php echo $record["username"]; ?></b>さん</p>
+      <p>こんにちは、<b><?php echo $record['username']; ?></b>さん</p>
     </div>
     <div class="">
-      <p>あなたのメールアドレスは<b><?php echo $record["email"]; ?></b>です</p>
+      <p>あなたのメールアドレスは<b><?php $email = $record["email"];
+                        $hiddenEmail = substr($email, 0, 4) . str_repeat("*", strlen($email) - 4);
+                        echo $hiddenEmail; ?></b>です</p>
     </div>
     <div class="">
       <p>あなたの生年月日は<b>
@@ -51,7 +39,7 @@ try {
 
   <div class="">
     <div class="inline-flex rounded-md">
-      <a href="#" class="px-4 py-2 text-sm font-medium text-white bg-gray-300 border border-gray-200 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">プロフィールを修正する</a>
+      <a href="./profile_edit.php" class="px-4 py-2 text-sm font-medium text-white bg-gray-300 border border-gray-200 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">プロフィールを修正する</a>
     </div>
     <a href="#" class="text-blue-700">ログアウトする</a>
 
