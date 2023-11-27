@@ -17,8 +17,8 @@ include './layout/header.php';
 try {
   $pdo = new PDO(DSN, DB_USER, DB_PASS);
   $sql = "SELECT * FROM userDeta
-  INNER JOIN capitals
-  ON userDeta.place = capitals.name";
+  INNER JOIN mst_capitals
+  ON userDeta.place = mst_capitals.name";
 
   $stmt = $pdo->query($sql);
   foreach ($stmt as $record) {

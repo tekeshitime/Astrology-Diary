@@ -17,8 +17,8 @@ include './layout/header.php';
 try {
   $pdo = new PDO(DSN, DB_USER, DB_PASS);
   $sql = "SELECT * FROM userDeta
-  INNER JOIN capitals
-  ON userDeta.place = capitals.name";
+  INNER JOIN mst_capitals
+  ON userDeta.place = mst_capitals.name";
 
   $stmt = $pdo->query($sql);
   foreach ($stmt as $record) {
@@ -38,56 +38,23 @@ try {
     include './synastry/synastry_generator.php';
 
     echo "<center>";
-    $wheel_img_src = 'synastry/synastry_wheel.php?rx1=$rx1&rx2=$rx2&p1=$ser_L1&p2=$ser_L2&ubt1=$ubt1&ubt2=$ubt2&l1=$line1&l2=$line2';
+
     echo "<img border='0' src='synastry/synastry_wheel.php?rx1=$rx1&rx2=$rx2&p1=$ser_L1&p2=$ser_L2&ubt1=$ubt1&ubt2=$ubt2&l1=$line1&l2=$line2' width='$wheel_width' height='$wheel_height'>";
 
     echo "<br><br>";
 
-    $grid_img_src = 'synastry/synastry_aspect_grid.php?rx1=$rx1&rx2=$rx2&p1=$ser_L1&p2=$ser_L2&hc1=$ser_hc1&hc2=$ser_hc2&ubt1=$ubt1&ubt2=$ubt2';
+
     echo "<img border='0' src='synastry/synastry_aspect_grid.php?rx1=$rx1&rx2=$rx2&p1=$ser_L1&p2=$ser_L2&hc1=$ser_hc1&hc2=$ser_hc2&ubt1=$ubt1&ubt2=$ubt2' width='830' height='475'>";
 
     echo "<br>";
 
-    //ここからアスペクトの詳細
-    echo '<center><table width="" cellpadding="0" cellspacing="0" border="0">';
-    echo '<tr>';
-    echo "<td><font color='#0000ff'><b> T天体</b></font></td>";
-    echo "<td><font color='#0000ff'><b> アスペクト </b></font></td>";
-    echo "<td><font color='#0000ff'><b> N天体</b></font></td>";
-    echo "<td><font color='#0000ff'><b> オーブ </b></font></td>";
-    echo '</tr>';
 
-    // include Ascendant and MC
-    $longitude1[LAST_PLANET + 1] = $hc1[1];
-    $longitude1[LAST_PLANET + 2] = $hc1[10];
-
-    $pl_name[LAST_PLANET + 1] = "Ascendant";
-    $pl_name[LAST_PLANET + 2] = "Midheaven";
-
-    $longitude2[LAST_PLANET + 1] = $hc2[1];
-    $longitude2[LAST_PLANET + 2] = $hc2[10];
-
-    if ($ubt1 == 1) {
-      $a1 = SE_TNODE;
-    } else {
-      $a1 = LAST_PLANET + 2;
-    }
-
-    if ($ubt2 == 1) {
-      $b1 = SE_TNODE;
-    } else {
-      $b1 = LAST_PLANET + 2;
-    }
-
-    //ここからアスペクト計算表
-    //--
-    //--
-
-    print_r(array_filter($aspect_tables));
 
 
 
     // ここからトランジットとネイタルのハウス情報など
+    // 自分の太陽から火星までを対象とする。
+    // トランジットの木星から冥王星までを対象とする。
     echo '<center><table  cellpadding="0" cellspacing="0" border="0" class="mt-10">';
 
     echo '<tr>';
@@ -140,6 +107,99 @@ try {
     echo "<td> &nbsp </td>";
     echo "<td> &nbsp </td>";
     echo '</tr>';
+
+    //ここからアスペクトの詳細
+    echo '<center><table width="" cellpadding="0" cellspacing="0" border="0">';
+    echo '<tr>';
+    echo "<td><font color='#0000ff'><b> T天体</b></font></td>";
+    echo "<td><font color='#0000ff'><b> アスペクト </b></font></td>";
+    echo "<td><font color='#0000ff'><b> N天体</b></font></td>";
+    echo "<td><font color='#0000ff'><b> オーブ </b></font></td>";
+    echo '</tr>';
+
+    // include Ascendant and MC
+    $longitude1[LAST_PLANET + 1] = $hc1[1];
+    $longitude1[LAST_PLANET + 2] = $hc1[10];
+
+    $pl_name[LAST_PLANET + 1] = "Ascendant";
+    $pl_name[LAST_PLANET + 2] = "Midheaven";
+
+    $longitude2[LAST_PLANET + 1] = $hc2[1];
+    $longitude2[LAST_PLANET + 2] = $hc2[10];
+
+    if ($ubt1 == 1) {
+      $a1 = SE_TNODE;
+    } else {
+      $a1 = LAST_PLANET + 2;
+    }
+
+    if ($ubt2 == 1) {
+      $b1 = SE_TNODE;
+    } else {
+      $b1 = LAST_PLANET + 2;
+    }
+
+    //ここからアスペクト計算表
+    //--
+    //--
+
+    for ($i = 0; $i <= SE_VENUS; $i++) {
+      for ($j = SE_MARS; $j <= SE_PLUTO; $j++) {
+        $q = 0;
+        $da = Abs($longitude1[$i] - $longitude2[$j]);
+
+        if ($da > 180) {
+          $da = 360 - $da;
+        }
+
+        // set orb - 8 if Sun or Moon, 6 if not Sun or Moon
+        if ($i == SE_POF or $j == SE_POF) {
+          $orb = 2;
+          // } elseif ($i == SE_LILITH or $j == SE_LILITH) {
+          //   $orb = 3;
+          // } elseif ($i == SE_TNODE or $j == SE_TNODE) {
+          //   $orb = 3;
+          // } elseif ($i == SE_VERTEX or $j == SE_VERTEX) {
+          //   $orb = 3;
+        } elseif ($i == SE_SUN or $i == SE_MOON or $j == SE_SUN or $j == SE_MOON) {
+          $orb = 8;
+        } else {
+          $orb = 6;
+        }
+
+        // is there an aspect within orb?
+        if ($da <= $orb) {
+          $q = 1;
+          $dax = $da;
+        } elseif (($da <= (60 + $orb)) and ($da >= (60 - $orb))) {
+          $q = 6;
+          $dax = $da - 60;
+        } elseif (($da <= (90 + $orb)) and ($da >= (90 - $orb))) {
+          $q = 4;
+          $dax = $da - 90;
+        } elseif (($da <= (120 + $orb)) and ($da >= (120 - $orb))) {
+          $q = 3;
+          $dax = $da - 120;
+        } elseif (($da <= (150 + $orb)) and ($da >= (150 - $orb))) {
+          $q = 5;
+          $dax = $da - 150;
+        } elseif ($da >= (180 - $orb)) {
+          $q = 2;
+          $dax = 180 - $da;
+        }
+
+        if ($q > 0) {
+          $final_dax = sprintf("%.2f", abs($dax));
+          // aspect exists
+          echo "<tr>
+                  <td>" . $pl_name[$i] . "</td>
+                  <td>" . $asp_name[$q] . "</td>
+                  <td>" . $pl_name[$j] . "</td>
+                  <td>" . $final_dax . "</td>
+                </tr>";
+        }
+      }
+    }
 
 
 

@@ -31,3 +31,4 @@ isolate*.log
 
 src/master_wheel
 src/synastry
+src/tutorial

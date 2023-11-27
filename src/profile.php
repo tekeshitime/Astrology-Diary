@@ -40,7 +40,7 @@ try {
         </b>です</p>
     </div>
     <div class="">
-      <p>生まれた時間は<b><?php echo $record["birth_hour"] . '時' . $record["birth_m"] . "分" ?></b>です</p>
+      <p>生まれた時間は<b><?php echo $record["birth_hour"] . '時' . $record["birth_min"] . "分" ?></b>です</p>
     </div>
     <div class="">
       <p>生まれた場所は<b><?php echo $record["place"]; ?></b>です</p>
