@@ -31,23 +31,20 @@ if (!empty($_GET['id'])) {
   }
   //submitを押したらデータを更新する
   if (isset($_POST['submit'])) {
-    echo "a";
-    $stmt = $pdo->prepare("UPDATE post
-    SET mood = ?,
-        content = ?
-    WHERE id = ?;");
+    try {
+      $stmt = $pdo->prepare("UPDATE post
+      SET mood = ?,
+          content = ?
+      WHERE id = ?;");
 
-    $stmt->execute([$_POST['mood'], $_POST['content'], $_GET['id']]);
+      $stmt->execute([$_POST['mood'], $_POST['content'], $_GET['id']]);
+      header("Location: diary.php");
+    } catch (PDOException $e) {
+      echo "error" . $e->getMessage();
+      exit();
+    };
   }
 }
-
-
-
-// echo date('Y/m/d');
-// echo $_POST['mood'];
-// echo $_POST['content'];
-// echo $_POST['date'];
-// echo $message_data['content'];
 ?>
 
 
@@ -99,14 +96,12 @@ if (!empty($_GET['id'])) {
   </div>
 
   <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">今日はどんな一日だった？</label>
-  <textarea id="message" rows="4" name="content" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-  <?php if (!empty($message_data)) {
-    echo trim($message_data['content']);
-  } ?>
-  </textarea>
+  <textarea id="message" rows="4" name="content" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?php if (!empty($message_data)) {
+                                                                                                                                                                                                                                                                                                                                echo trim($message_data['content']);
+                                                                                                                                                                                                                                                                                                                              } ?></textarea>
 
   <div class="text-center mt-4">
-    <button type="submit" name="submit" class="text-white w-96 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">日記を投稿する</button>
+    <button type="submit" name="submit" class="text-white w-96 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">日記を更新する</button>
   </div>
 
 </form>

@@ -6,13 +6,11 @@ if (!isset($_SESSION['authentication'])) {
   header("Location: login.php");
   exit();
 }
-?>
-
-<?php
 require_once('config.php');
 include './layout/header.php';
 $id = $_SESSION['id'];
 ?>
+
 
 <?php
 try {
@@ -21,12 +19,13 @@ try {
   where id = $id";
 
   $stmt = $pdo->query($sql);
-  foreach ($stmt as $record) {
-  }
+  $record = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   echo "エラーメッセージ : " . $e->getMessage();
 }
 ?>
+
+
 
 <div class="max-w-screen-md mx-auto p-4 md:p-8">
   <div class="mb-4">
