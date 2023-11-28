@@ -29,6 +29,5 @@ isolate*.log
 /tests/evaluate-tailwind-functions.test.html
 /mysql
 
-src/master_wheel
-src/synastry
+
 src/tutorial
