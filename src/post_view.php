@@ -8,10 +8,10 @@ try {
           INNER JOIN post ON userdeta.id = post.username
           INNER JOIN mst_mood ON post.mood = mst_mood.mood_id;";
   $stmt = $pdo->query($sql);
+  // $record = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
   foreach ($stmt as $record) {
-    // print_r($record);
   }
 } catch (PDOException $e) {
   echo "エラーメッセージ : " . $e->getMessage();
@@ -120,6 +120,8 @@ $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo $items[1];
             echo '</td><td class="px-6 py-4">';
             echo $items[2];
+            echo '</td><td class="px-6 py-4">';
+            echo $items[3];
             echo '</td></tr>';
           }
           ?>
