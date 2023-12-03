@@ -6,7 +6,7 @@ if (isset($_POST['register'])) {
   try {
     $pdo = new PDO(DSN, DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec("create table if not exists userDeta(
+    $pdo->exec("create table if not exists userdeta(
         id int not null auto_increment primary key,
         email varchar(255),
         password varchar(255),
@@ -43,13 +43,13 @@ if (isset($_POST['register'])) {
 
   $place = $_POST['place'];
   //データベース内のメールアドレスを取得
-  $stmt = $pdo->prepare("select email from userDeta where email = ?");
+  $stmt = $pdo->prepare("SELECT * FROM userdeta WHERE email = ?");
   $stmt->execute([$email]);
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
   //データベース内のメールアドレスと重複していない場合、登録する。
   if (!isset($row['email'])) {
     $stmt = $pdo->prepare(
-      "insert into userDeta(email, password,username,birth_y,birth_m,birth_d,birth_hour,birth_min,place)
+      "insert into userdeta(email, password,username,birth_y,birth_m,birth_d,birth_hour,birth_min,place)
       value(?,?,?,?,?,?,?,?,?)"
     );
     $stmt->execute([$email, $password, $username, $birth_y, $birth_m, $birth_d, $birth_hour, $birth_min, $place]);
