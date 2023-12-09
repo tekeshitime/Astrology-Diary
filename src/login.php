@@ -5,8 +5,7 @@ session_start();
 if (isset($_POST['login'])) {
   //メールアドレスのバリデーション
   if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-    echo '入力された値が不正です。';
-    return false;
+    $message = '入力された値が不正です。';
   }
   //DB内でPOSTされたメールアドレスを検索
   try {
@@ -19,8 +18,7 @@ if (isset($_POST['login'])) {
   }
   //emailがDB内に存在しているか確認
   if (!isset($row['email'])) {
-    echo 'メールアドレス又はパスワードが間違っています。';
-    return false;
+    $message = 'メールアドレス又はパスワードが間違っています。';
   }
   //パスワード確認後sessionにidを渡す
   if (password_verify($_POST['password'], $row['password'])) {
@@ -30,8 +28,7 @@ if (isset($_POST['login'])) {
     header("Location: profile.php");
     exit;
   } else {
-    echo 'メールアドレス又はパスワードが間違っています。';
-    return false;
+    $message = 'メールアドレス又はパスワードが間違っています。';
   }
 }
 ?>
@@ -41,6 +38,15 @@ include './layout/header.php';
 ?>
 
 <div class="max-w-screen-sm mx-auto p-4 md:p-8">
+  <?php if (isset($_SESSION['message'])) : ?>
+    <p class="text-green-600"><?php echo htmlspecialchars($_SESSION['message']) ?></p>
+    <br><br>
+  <?php endif ?>
+  <?php if (isset($message)) : ?>
+    <p class="text-red-600"><?php echo htmlspecialchars($message) ?></p>
+    <br><br>
+  <?php endif ?>
+
   <form action="" method="POST">
     <div class="mb-6">
       <label for="signin-id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">メールアドレス</label>

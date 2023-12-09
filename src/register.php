@@ -6,30 +6,18 @@ if (isset($_POST['register'])) {
   try {
     $pdo = new PDO(DSN, DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec("create table if not exists userdeta(
-        id int not null auto_increment primary key,
-        email varchar(255),
-        password varchar(255),
-        username varchar(255),
-        birth_day varchar(255),
-        birth_time varchar(255),
-        place varchar(255),
-        created timestamp not null default current_timestamp
-      )");
   } catch (PDOException $e) {
     echo $e->getMessage() . PHP_EOL;
   }
   //メールアドレスのバリデーション
   if (!$email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-    echo '入力された値が不正です。';
-    return false;
+    $message = '入力された値が不正です。';
   }
   //正規表現でパスワードをバリデーション
   if (preg_match('/\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}+\z/i', $_POST['password'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
   } else {
-    echo 'パスワードは半角英数字をそれぞれ1文字以上含んだ8文字以上で設定してください。';
-    return false;
+    $message = 'パスワードは半角英数字をそれぞれ1文字以上含んだ8文字以上で設定してください。';
   }
   //送信された内容を格納する
   $username = $_POST['username'];
@@ -53,12 +41,11 @@ if (isset($_POST['register'])) {
       value(?,?,?,?,?,?,?,?,?)"
     );
     $stmt->execute([$email, $password, $username, $birth_y, $birth_m, $birth_d, $birth_hour, $birth_min, $place]);
-    echo '登録完了しました。<a href="login.php">ログイン</a>してください。';
-    // echo $birth_y . $birth_m . $birth_d . $birth_hour . $birth_min;
+    $_SESSION['message'] = '登録完了しました。ログインしてください。';
+    header("Location: login.php");
+    exit;
   } else {
-    echo '既に登録されたメールアドレスです';
-    echo $birth_d;
-    return false;
+    $message = '既に登録されたメールアドレスです';
   }
 }
 ?>
@@ -68,6 +55,10 @@ include './layout/header.php';
 ?>
 
 <div class="max-w-screen-sm mx-auto p-4 md:p-8">
+  <?php if (isset($message)) : ?>
+    <p class="text-red-600"><?php echo htmlspecialchars($message) ?></p>
+    <br><br>
+  <?php endif ?>
   <form action="" method="POST">
     <!-- アドレス -->
     <div class="mb-6">
