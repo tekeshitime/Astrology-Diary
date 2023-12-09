@@ -16,7 +16,7 @@ if (isset($_POST['register'])) {
         place varchar(255),
         created timestamp not null default current_timestamp
       )");
-  } catch (Exception $e) {
+  } catch (PDOException $e) {
     echo $e->getMessage() . PHP_EOL;
   }
   //メールアドレスのバリデーション

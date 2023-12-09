@@ -11,7 +11,7 @@ if (isset($_POST['login'])) {
   //DB内でPOSTされたメールアドレスを検索
   try {
     $pdo = new PDO(DSN, DB_USER, DB_PASS);
-    $stmt = $pdo->prepare('select * from userDeta where email = ?');
+    $stmt = $pdo->prepare('select * from userdeta where email = ?');
     $stmt->execute([$_POST['email']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
   } catch (\Exception $e) {

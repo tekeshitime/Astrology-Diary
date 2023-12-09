@@ -8,9 +8,9 @@ if (isset($_POST['post'])) {
         $stmt = $pdo->prepare("SELECT `date` FROM post WHERE `date` = ?");
         $stmt->execute([$date]);
         if ($stmt->rowCount() == 0) {
-            $sql = "SELECT * FROM userDeta
+            $sql = "SELECT * FROM userdeta
                     INNER JOIN mst_capitals
-                    ON userDeta.place = mst_capitals.name";
+                    ON userdeta.place = mst_capitals.name";
             $session_stmt = $pdo->query($sql);
             foreach ($session_stmt as $record) {
             }
