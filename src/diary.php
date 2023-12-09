@@ -43,14 +43,16 @@ try {
 
 <!-- 日記をカードで表示 -->
 <?php
+$userId = $_SESSION['id'];
 $sql = "SELECT * FROM post 
-INNER JOIN mst_mood ON post.mood = mst_mood.mood_id;
-ORDER BY date desc LIMIT 5;";
+INNER JOIN mst_mood ON post.mood = mst_mood.mood_id
+where username = $userId
+ORDER BY date desc LIMIT 5";
+
 $stmt = $pdo->query($sql);
 $record = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($record as $record) {
   unset($phpList);
-  // print_r($record);
 ?>
   <div class="font-normal text-gray-700  mx-auto w-2/3 dark:text-gray-400">
     <!-- 編集リンク -->
@@ -65,7 +67,6 @@ foreach ($record as $record) {
         <!-- column 1 -->
         <div class="grid grid-cols-1 h-40 w-2/6 text-center ">
           <div class="mood text-6xl "><!-- 絵文字で表情 -->
-
             <?php echo $record['mood']; ?>
           </div>
           <div class="date "><!-- 曜日と日付 -->

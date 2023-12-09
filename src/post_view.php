@@ -9,8 +9,6 @@ try {
           INNER JOIN mst_mood ON post.mood = mst_mood.mood_id;";
   $stmt = $pdo->query($sql);
   // $record = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
   foreach ($stmt as $record) {
   }
 } catch (PDOException $e) {
@@ -101,7 +99,7 @@ $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
           $phpList[] = json_decode($record['aspect_desc'], true);
 
           // リストの中身を出力して確認
-          // print_r($phpList[0][0]);
+          print_r($phpList[0]);
           // echo $phpList[0][2];
 
           if (is_array($phpList)) {
