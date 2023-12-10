@@ -32,7 +32,7 @@ try {
 <!-- 日記を追加するボタン -->
 <div class="text-center">
   <button type="button" class="text-white w-96 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-    <a href="post_form.php" class="block">+日記を追加する</a></button>
+    <a href="post_form" class="block">+日記を追加する</a></button>
 </div>
 
 <!-- 日付 -->
@@ -57,12 +57,12 @@ foreach ($record as $record) {
   <div class="font-normal text-gray-700  mx-auto w-2/3 dark:text-gray-400">
     <!-- 編集リンク -->
     <p class="text-right inline mt-2">
-    <form action="post_edit.php" action="get">
+    <form action="post_edit" action="get">
       <input type="hidden" name="id" value="<?php echo $record['id']; ?>" />
       <input type="submit" value="edit_note" class="material-symbols-outlined">
     </form>
     </p>
-    <a href="post_view.php" class="block  p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <a href="post_view" class="block  p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
       <div class="flex items-center">
         <!-- column 1 -->
         <div class="grid grid-cols-1 h-40 w-2/6 text-center ">

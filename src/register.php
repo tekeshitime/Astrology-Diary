@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once('config.php');
 //データベースへ接続、テーブルがない場合は作成
@@ -19,18 +20,12 @@ if (isset($_POST['register'])) {
   } else {
     $message = 'パスワードは半角英数字をそれぞれ1文字以上含んだ8文字以上で設定してください。';
   }
-  //送信された内容を格納する
+
   $username = $_POST['username'];
-
-  // birth_dayを分割
   list($birth_y, $birth_m, $birth_d) = explode('-', $_POST['birth_day']);
-
-
-  // birth_timeを分割
   list($birth_hour, $birth_min) = explode(':', $_POST['birth_time']);
-
   $place = $_POST['place'];
-  //データベース内のメールアドレスを取得
+
   $stmt = $pdo->prepare("SELECT * FROM userdeta WHERE email = ?");
   $stmt->execute([$email]);
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -42,7 +37,7 @@ if (isset($_POST['register'])) {
     );
     $stmt->execute([$email, $password, $username, $birth_y, $birth_m, $birth_d, $birth_hour, $birth_min, $place]);
     $_SESSION['message'] = '登録完了しました。ログインしてください。';
-    header("Location: login.php");
+    header("Location: login");
     exit;
   } else {
     $message = '既に登録されたメールアドレスです';
@@ -50,9 +45,9 @@ if (isset($_POST['register'])) {
 }
 ?>
 
-<?php
-include './layout/header.php';
-?>
+
+<?php include './layout/header.php'; ?>
+
 
 <div class="max-w-screen-sm mx-auto p-4 md:p-8">
   <?php if (isset($message)) : ?>

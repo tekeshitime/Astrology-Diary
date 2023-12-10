@@ -130,7 +130,7 @@ $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- 編集リンク -->
     <p class="text-right mt-2">
       <span class="material-symbols-outlined">
-        <a href="edit_form.php">edit_note</a>
+        <a href="edit_form">edit_note</a>
       </span>
     </p>
   </div>

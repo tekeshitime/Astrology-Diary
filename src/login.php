@@ -1,6 +1,6 @@
 <?php
-require_once('config.php');
 session_start();
+require_once('config.php');
 
 if (isset($_POST['login'])) {
   //メールアドレスのバリデーション
@@ -32,11 +32,7 @@ if (isset($_POST['login'])) {
   }
 }
 ?>
-
-<?php
-include './layout/header.php';
-?>
-
+<?php include './layout/header.php'; ?>
 <div class="max-w-screen-sm mx-auto p-4 md:p-8">
   <?php if (isset($_SESSION['message'])) : ?>
     <p class="text-green-600"><?php echo htmlspecialchars($_SESSION['message']) ?></p>
@@ -68,5 +64,7 @@ include './layout/header.php';
     <span class="mt-4">アカウントをお持ちでない方</span><a href="register.php" class="ml-2">新規登録</a>
   </div>
 </div>
+
+
 
 <?php include './layout/footer.php'; ?>
