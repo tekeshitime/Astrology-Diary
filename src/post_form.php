@@ -2,32 +2,43 @@
 session_start();
 require_once('config.php');
 if (isset($_POST['post'])) {
+
+  #ポストをｄｂに追加する
+  #中間レコードpostaspectにpost_idとpattern_idを追加する
+  #
+  #
+  #
+  #
+  #
+  #
+  # 
+
   try {
     $pdo = new PDO(DSN, DB_USER, DB_PASS);
+
+    //１日1投稿に制限する
     $date = $_POST['date'];
     $stmt = $pdo->prepare("SELECT `date` FROM post WHERE `date` = ?");
     $stmt->execute([$date]);
+
+    //ポストを追加する
     if ($stmt->rowCount() == 0) {
       $sql = "SELECT * FROM userdeta
-              INNER JOIN mst_capitals
-              ON userDeta.place = mst_capitals.name";
+          INNER JOIN mst_capitals
+          ON userdeta.place = mst_capitals.name";
       $session_stmt = $pdo->query($sql);
       foreach ($session_stmt as $record) {
       }
+
       $stmt = $pdo->prepare(
         "INSERT INTO post(`username`, `mood`, `content`, `date`, `wheel_img_src`, `grid_img_src`, `day_sun`, `day_moon`, `aspect_desc`)
-        VALUES (?,?,?,?,?,?,?,?,?)"
+    VALUES (?,?,?,?,?,?,?,?,?)"
       );
       include './synastry/synastry_generator.php';
 
       $stmt->execute([$_SESSION['id'], $_POST['mood'], $_POST['content'], $_POST['date'], $wheel_img_src, $grid_img_src, $day_sun, $day_moon, json_encode($str)]);
-
-      // エラー表示
-      // print_r($pdo->errorInfo());
-      // print_r($stmt->errorInfo());
       $last_record_id = $pdo->lastInsertId();
       unset($_POST['date']);
-
       //パターンidを取得する
       function getPatternId($pattern)
       {
@@ -43,11 +54,7 @@ if (isset($_POST['post'])) {
 
         return $result ? $result['id'] : 0; // マッピングが見つからない場合はデフォルト値を返す
       }
-      // //パターンIDを保存する
 
-      // // 例: 'role2' に対応する role_id を取得
-      // $pattern_id = getPatternId('太陽-0-木星');
-      // echo $pattern_id;
 
       //中間テーブルにパターンidを保存する
       function savePostAspect($post_id, $pattern)
@@ -63,24 +70,15 @@ if (isset($_POST['post'])) {
         $stmt = $dbh->prepare('INSERT INTO posts_aspects (post_id, pattern_id) VALUES (:post_id, :pattern_id)');
         $stmt->bindParam(':post_id', $post_id);
         $stmt->bindParam(':pattern_id', $pattern_id);
-
-        // ここでエラーが発生した場合の処理を追加すると良い
-        // try {
-        //     $stmt->execute();
-        // } catch (PDOException $e) {
-        //     echo "エラーメッセージ: " . $e->getMessage();
-        // }
-
-        // 実行
         $stmt->execute();
       }
 
-      // 例: '太陽-0-木星' パターンを post_id が 1 の記事に紐付けて保存
+      // 例: '太陽-0-木星' パターンを post_id が n の記事に紐付けて保存
+      //　存在しないパターンがあるとエラーを返すので注意
       foreach ($parts_aspects as $items) {
         savePostAspect($last_record_id, $items);
       }
-
-      header("Location: diary.php");
+      header("Location: diary");
     } else {
       $message = "<p class='text-red-600 font-bold'>以下日付の日記はすでに存在しています。</p>";
     }
@@ -88,12 +86,6 @@ if (isset($_POST['post'])) {
     echo $e->getMessage() . PHP_EOL;
   }
 }
-
-
-// echo date('Y/m/d');
-// echo $_POST['mood'];
-// echo $_POST['content'];
-// echo $_POST['date'];
 
 ?>
 
@@ -104,10 +96,7 @@ if (isset($_POST['post'])) {
 
 <form class="max-w-screen-md mx-auto p-4 md:p-8" method="post">
   <p class="text-sm text-gray-800 dark:text-white">希望の日付に変更できます。</p>
-  <?php
-  echo $message;
-
-  ?>
+  <?php echo $message; ?>
   <div class="text-5xl font-bold text-gray-400">
     <input type="date" name="date" id="selectdate" value="<?php echo date('Y-m-d'); ?>" class='text-gray-800 dark:text-white'>
   </div>

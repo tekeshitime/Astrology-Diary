@@ -32,6 +32,9 @@ switch ($path[1]) {
     case "profile_edit":
         include "profile_edit.php";
         exit;
+    case "logout":
+        include "logout.php";
+        exit;
 }
 ?>
 

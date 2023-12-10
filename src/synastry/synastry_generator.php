@@ -790,7 +790,7 @@ if ($no_interps == False) {
 
 //アスペクト表に表示する天体と許容角度を調整する
 for ($i = 0; $i <= SE_VENUS; $i++) {
-  for ($j = SE_MARS; $j <= SE_PLUTO; $j++) {
+  for ($j = SE_JUPITER; $j <= SE_PLUTO; $j++) {
     $q = 0;
     $da = Abs($longitude1[$i] - $longitude2[$j]);
 
@@ -826,9 +826,10 @@ for ($i = 0; $i <= SE_VENUS; $i++) {
     } elseif (($da <= (120 + $orb)) and ($da >= (120 - $orb))) {
       $q = 3;
       $dax = $da - 120;
-    } elseif (($da <= (150 + $orb)) and ($da >= (150 - $orb))) {
-      $q = 5;
-      $dax = $da - 150;
+      // } 
+      // elseif (($da <= (150 + $orb)) and ($da >= (150 - $orb))) {
+      //   $q = 5;
+      //   $dax = $da - 150;
     } elseif ($da >= (180 - $orb)) {
       $q = 2;
       $dax = 180 - $da;

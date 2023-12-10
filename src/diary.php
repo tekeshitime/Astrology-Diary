@@ -1,13 +1,12 @@
 <?php
 session_start();
-if (!isset($_SESSION['authentication'])) {
-  // ログインされていない場合、login.php へリダイレクト
-  header("Location: login.php");
-  exit();
-}
-
 require_once('config.php');
 
+if (!isset($_SESSION['authentication'])) {
+  // ログインされていない場合、login.php へリダイレクト
+  header("Location: login");
+  exit();
+}
 
 try {
   $pdo = new PDO(DSN, DB_USER, DB_PASS);
@@ -145,7 +144,6 @@ foreach ($record as $record) {
                   echo $items[3];
                   echo '</td></tr>';
                 }
-
                 ?>
                 </tr>
               </tbody>
