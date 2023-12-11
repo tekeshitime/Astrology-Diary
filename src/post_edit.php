@@ -52,7 +52,7 @@ if (!empty($_GET['id'])) {
 
 <form class="max-w-screen-md mx-auto p-4 md:p-8" method="post">
   <div class="text-5xl font-bold text-gray-400">
-    <input readonly type="date" name="date" id="selectdate" value="<?php echo $message_data['date']; ?>" class='text-gray-800 dark:text-white'>
+    <input readonly type="date" name="date" id="selectdate" value="<?php echo htmlspecialchars($message_data['date']); ?>" class='text-gray-800 dark:text-white'>
   </div>
 
 

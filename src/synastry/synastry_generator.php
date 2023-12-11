@@ -789,10 +789,10 @@ if ($no_interps == False) {
 
 
 //アスペクト表に表示する天体と許容角度を調整する
-for ($i = 0; $i <= SE_VENUS; $i++) {
+for ($i = 0; $i <= SE_MARS; $i++) {
   for ($j = SE_JUPITER; $j <= SE_PLUTO; $j++) {
     $q = 0;
-    $da = Abs($longitude1[$i] - $longitude2[$j]);
+    $da = Abs($longitude2[$i] - $longitude1[$j]);
 
     if ($da > 180) {
       $da = 360 - $da;

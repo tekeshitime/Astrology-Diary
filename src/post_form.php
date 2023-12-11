@@ -96,7 +96,7 @@ if (isset($_POST['post'])) {
 
 <form class="max-w-screen-md mx-auto p-4 md:p-8" method="post">
   <p class="text-sm text-gray-800 dark:text-white">希望の日付に変更できます。</p>
-  <?php echo $message; ?>
+  <?php echo $message ?>
   <div class="text-5xl font-bold text-gray-400">
     <input type="date" name="date" id="selectdate" value="<?php echo date('Y-m-d'); ?>" class='text-gray-800 dark:text-white'>
   </div>

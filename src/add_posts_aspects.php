@@ -23,7 +23,7 @@ if (isset($_POST['post'])) {
             include './synastry/synastry_generator.php';
             $stmt->execute([$_SESSION['id'], $_POST['mood'], $_POST['content'], $_POST['date'], $wheel_img_src, $grid_img_src, $day_sun, $day_moon, json_encode($parts_aspects)]);
             unset($_POST['date']);
-            header("Location: diary.php");
+            header("Location: diary");
         } else {
             $message = "<p class='text-red-600 font-bold'>以下日付の日記はすでに存在しています。</p>";
         }
@@ -41,7 +41,6 @@ if (isset($_POST['post'])) {
     <p class="text-sm text-gray-800 dark:text-white">希望の日付に変更できます。</p>
     <?php
     echo $message;
-
     ?>
     <div class="text-5xl font-bold text-gray-400">
         <input type="date" name="date" id="selectdate" value="<?php echo date('Y-m-d'); ?>" class='text-gray-800 dark:text-white'>

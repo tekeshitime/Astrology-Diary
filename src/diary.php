@@ -57,7 +57,7 @@ foreach ($record as $record) {
     <!-- 編集リンク -->
     <p class="text-right inline mt-2">
     <form action="post_edit" action="get">
-      <input type="hidden" name="id" value="<?php echo $record['id']; ?>" />
+      <input type="hidden" name="id" value="<?php echo htmlspecialchars($record['id']); ?>" />
       <input type="submit" value="edit_note" class="material-symbols-outlined">
     </form>
     </p>
@@ -66,35 +66,34 @@ foreach ($record as $record) {
         <!-- column 1 -->
         <div class="grid grid-cols-1 h-40 w-2/6 text-center ">
           <div class="mood text-6xl "><!-- 絵文字で表情 -->
-            <?php echo $record['mood']; ?>
+            <?php echo htmlspecialchars($record['mood'], ENT_QUOTES); ?>
           </div>
           <div class="date "><!-- 曜日と日付 -->
             <?php
             $week = array("日", "月", "火", "水", "木", "金", "土");
             $date = new DateTime($record['date']);
-            echo $week[$date->format('w')] . "曜日";
-            echo " ";
-            echo $date->format('d');
+            echo htmlspecialchars($week[$date->format('w')], ENT_QUOTES) . "曜日 ";
+            echo htmlspecialchars($date->format('d'));
             ?>日
           </div>
           <!-- 太陽の星座 -->
           <div class="sign_sun_day">太陽：
-            <?php echo $record['day_sun']; ?>
+            <?php echo htmlspecialchars($record['day_sun']) ?>座
           </div>
           <!-- 月の星座 -->
-          <div class="sign_sun_day">月
-            <?php echo $record['day_moon']; ?>
+          <div class="sign_sun_day">月：
+            <?php echo htmlspecialchars($record['day_moon']) ?>座
           </div>
         </div>
         <!-- column 2 -->
         <div class="border-l-2 pl-8 w-4/6">
-          <p class="text-gray-300 font-bold"><?php echo $record['date']; ?></p>
+          <p class="text-gray-300 font-bold"><?php echo htmlspecialchars($record['date']) ?></p>
 
           <!-- 今日やったこと add_activity -->
           <!-- <div class="add_activity"></div> -->
           <p class="text-ellipsis">
             <!-- 日記本文 max-3行-->
-            <?php echo $record['content']; ?>
+            <?php echo htmlspecialchars($record['content']); ?>
           </p>
 
           <!-- 
@@ -116,16 +115,9 @@ foreach ($record as $record) {
                 // PHPのリストに変換
                 $phpList[] = json_decode($record['aspect_desc'], true);
 
-                // リストの中身を出力して確認
-                // print_r($phpList) . "<br><br>";
-                // echo $phpList[0][2];
-
                 if (is_array($phpList)) {
                   for ($i = 0; $i < 3; $i++) {
-                    // echo $i . "<br>";
-                    // echo $phpList[0][$i] . "<br>";
                     $front_aspect[$i] = $phpList[0][$i];
-                    // echo $front_aspect[$i] . "<br>";
                   }
                 } else {
                   echo "Error: Aspects is not an array.";
@@ -135,13 +127,13 @@ foreach ($record as $record) {
                   $items = explode('-', $items);
                   // print_r($items);
                   echo '<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800  dark:border-gray-700"><th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">';
-                  echo $items[0];
+                  echo htmlspecialchars($items[0]);
                   echo '</th><td class="px-6 py-4 aspect">';
-                  echo $items[1];
+                  echo htmlspecialchars($items[1]);
                   echo '</td><td class="px-6 py-4">';
-                  echo $items[2];
+                  echo htmlspecialchars($items[2]);
                   echo '</td><td class="px-6 py-4">';
-                  echo $items[3];
+                  echo htmlspecialchars($items[3]);
                   echo '</td></tr>';
                 }
                 ?>

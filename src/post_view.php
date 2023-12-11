@@ -65,7 +65,7 @@ $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <!-- <div class="add_activity"></div> -->
       <p class="text-ellipsis">
         <!-- 日記本文 max-3行-->
-        <?php echo $record['content']; ?>
+        <?php echo htmlspecialchars($record['content']); ?>
       </p>
 
       <!-- 
@@ -82,25 +82,21 @@ $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </div>
 
-<div class="flex items-start">
-  <div class="w-5/6">
-    <div class="mt-4 "><?php echo $record['wheel_img_src'] ?></div>
-    <div class="mt-4"><?php echo $record['grid_img_src'] ?></div>
-  </div>
-  <div class="table">
-    <span class="block my-2 text-sm leading-6 font-semibold text-blue-500 dark:text-sky-400">
-      アスペクト</span>
-    <div class="relative">
+<div class="mx-auto w-2/3 mt-10">
+  <div class="flex items-start ">
+    <div class="w-3/5">
+      <p class="block my-2 text-sm leading-6 font-semibold text-blue-500 dark:text-sky-400">
+        トランジットチャート</p>
+      <?php echo $record['wheel_img_src'] ?>
+    </div>
+    <div class="table ml-10">
+      <p class="block my-2 text-sm leading-6 font-semibold text-blue-500 dark:text-sky-400">
+        アスペクト</p>
       <table class="w-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <tbody>
-
           <?php
           // PHPのリストに変換
           $phpList[] = json_decode($record['aspect_desc'], true);
-
-          // リストの中身を出力して確認
-          // print_r($phpList[0]);
-          // echo $phpList[0][2];
 
           if (is_array($phpList)) {
             for ($i = 0; $i < count($phpList[0]); $i++) {
@@ -114,11 +110,11 @@ $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
             // print_r($items);
             echo '<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800  dark:border-gray-700"><th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">';
             echo $items[0];
-            echo '</th><td class="px-6 py-4 aspect">';
+            echo '</th><td class="px-4 py-2 aspect">';
             echo $items[1];
-            echo '</td><td class="px-6 py-4">';
+            echo '</td><td class="px-4 py-2">';
             echo $items[2];
-            echo '</td><td class="px-6 py-4">';
+            echo '</td><td class="px-4 py-2">';
             echo $items[3];
             echo '</td></tr>';
           }
@@ -127,13 +123,17 @@ $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tbody>
       </table>
     </div>
-    <!-- 編集リンク -->
-    <p class="text-right mt-2">
-      <span class="material-symbols-outlined">
-        <a href="edit_form">edit_note</a>
-      </span>
-    </p>
   </div>
+
+  <div class="mt-10"><?php echo $record['grid_img_src'] ?></div>
+
+  <!-- 編集リンク -->
+  <p class="text-right mt-2">
+    <span class="material-symbols-outlined">
+      <a href="edit_form">edit_note</a>
+    </span>
+  </p>
+
 </div>
 
 <?php include './layout/footer.php'; ?>

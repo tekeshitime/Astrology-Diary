@@ -217,7 +217,4 @@ $ser_hpos = serialize($house_pos1);
 
 echo "<center>";
 echo "<img border='0' src='master_wheel/natal_wheel.php?rx1=$rx1&p1=$ser_L1&hc1=$ser_hc1&hpos=$ser_hpos&ubt1=$ubt'>";
-
-echo "<br>";
-include('footer.html');
 echo "</center>";

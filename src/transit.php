@@ -58,10 +58,10 @@ try {
     echo '<center><table  cellpadding="0" cellspacing="0" border="0" class="mt-10">';
 
     echo '<tr>';
-    echo "<td><font color='#0000ff'><b> T天体</b></font></td>";
+    echo "<td><font color='#0000ff'><b> N天体</b></font></td>";
     echo "<td><font color='#0000ff'><b> 詳細 </b></font></td>";
     echo "<td><font color='#0000ff'><b> ハウス </b></font></td>";
-    echo "<td><font color='#0000ff'class='ml-4'><b> N天体 </b></font></td>";
+    echo "<td><font color='#0000ff'class='ml-4'><b> T天体 </b></font></td>";
     echo "<td><font color='#0000ff'><b> 詳細 </b></font></td>";
     echo "<td><font color='#0000ff'><b> ハウス </b></font></td>";
     echo '</tr>';
@@ -111,9 +111,9 @@ try {
     //ここからアスペクトの詳細
     echo '<center><table width="" cellpadding="0" cellspacing="0" border="0">';
     echo '<tr>';
-    echo "<td><font color='#0000ff'><b> T天体</b></font></td>";
-    echo "<td><font color='#0000ff'><b> アスペクト </b></font></td>";
     echo "<td><font color='#0000ff'><b> N天体</b></font></td>";
+    echo "<td><font color='#0000ff'><b> アスペクト </b></font></td>";
+    echo "<td><font color='#0000ff'><b> T天体</b></font></td>";
     echo "<td><font color='#0000ff'><b> オーブ </b></font></td>";
     echo '</tr>';
 
@@ -143,10 +143,10 @@ try {
     //--
     //--
 
-    for ($i = 0; $i <= SE_VENUS; $i++) {
-      for ($j = SE_MARS; $j <= SE_PLUTO; $j++) {
+    for ($i = 0; $i <= SE_MARS; $i++) {
+      for ($j = SE_JUPITER; $j <= SE_PLUTO; $j++) {
         $q = 0;
-        $da = Abs($longitude1[$i] - $longitude2[$j]);
+        $da = Abs($longitude2[$i] - $longitude1[$j]);
 
         if ($da > 180) {
           $da = 360 - $da;
@@ -190,7 +190,8 @@ try {
 
         if ($q > 0) {
           $final_dax = sprintf("%.2f", abs($dax));
-          // aspect exists
+          // $i　ネイタル金星まで
+          // $j トランジット木星から
           echo "<tr>
                   <td>" . $pl_name[$i] . "</td>
                   <td>" . $asp_name[$q] . "</td>
